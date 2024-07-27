@@ -1,0 +1,20 @@
+﻿@model IEnumerable<ShopProjectMVC.Core.Models.Product>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Products</h1>
+
+
+<div class="card-container">
+    @foreach(var product in Model)
+    {
+        <div class="card">
+            <div class="image"><span class="text">@product.Image</span></div>
+            <span class="title">@product.Name</span>
+            <span class="price">@product.Price</span>
+        </div>
+    }
+</div>
