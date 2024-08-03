@@ -5,6 +5,7 @@ using System.Diagnostics;
 
 namespace ShopProjectMVC.Controllers
 {
+    [AuthFilter]
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
@@ -16,11 +17,13 @@ namespace ShopProjectMVC.Controllers
             _orderService = orderService;
         }
 
+        [AuthFilter]
         public IActionResult Index()
         {
             return View();
         }
 
+        [AuthFilter]
         public IActionResult Privacy()
         {
             return View();

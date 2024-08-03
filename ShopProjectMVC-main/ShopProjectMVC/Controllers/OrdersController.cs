@@ -12,9 +12,10 @@ public class OrdersController : Controller
         _orderService = orderService;
     }
 
+    [AuthFilter]
     public IActionResult Index()
     {
-        var orders = _orderService.GetOrders(1);
+        var orders = _orderService.GetOrders(1).ToList();
         return View(orders);
     }
 }
