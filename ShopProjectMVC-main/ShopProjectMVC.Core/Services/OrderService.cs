@@ -12,6 +12,24 @@ public class OrderService : IOrderService
         _repository = repository;
     }
 
+    public async Task<Order> GetOrderById(int id)
+    {
+        // Отримуємо замовлення за його ідентифікатором
+        return await _repository.GetById<Order>(id);
+    }
+
+    public async Task UpdateOrder(Order order)
+    {
+        // Оновлюємо існуюче замовлення
+        await _repository.Update(order);
+    }
+
+    public async Task DeleteOrder(int id)
+    {
+        // Видаляємо замовлення за його ідентифікатором
+        await _repository.Delete<Order>(id);
+    }
+
     public IEnumerable<Order> GetOrders(int userId)
     {
         return _repository.GetAll<Order>()
@@ -23,4 +41,6 @@ public class OrderService : IOrderService
         return GetOrders(userId).Skip(offset)
             .Take(size);
     }
+
+   
 }

@@ -17,9 +17,29 @@ public class ProductService : IProductService
         return _repository.Add(product);
     }
 
-    public Task<Order> BuyProduct(int userId, int productId)
+    public async Task<Order> BuyProduct(int userId, int productId)
     {
-        throw new NotImplementedException();
+        var product = await _repository.GetById<Product>(productId);
+        var user = await _repository.GetById<User>(userId);
+
+        if(product.Count <= 0)
+        {
+            throw new InvalidOperationException();
+        }
+
+        product.Count--;
+
+        var order = new Order()
+        {
+            Product = product,
+            User = user,
+            CreatedAt = DateTime.UtcNow,
+        };
+
+        await _repository.Add(order);
+
+
+        return order;
     }
 
     public Task DeleteProduct(int id)
@@ -44,6 +64,6 @@ public class ProductService : IProductService
 
     public Task<Product> UpdateProduct(Product product)
     {
-        throw new NotImplementedException();
+        return _repository.Update(product);
     }
 }

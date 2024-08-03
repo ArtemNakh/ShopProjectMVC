@@ -19,18 +19,19 @@ public class UserController : Controller
         return View();
     }
 
+
     public IActionResult Register()
     {
-        return View();  
+        return View();
     }
 
     [HttpPost]
     public async Task<IActionResult> Login(User user)
     {
         var userFromDb = await _userService.Login(user.Email, user.Password);
-        // save user
-        
-        if(userFromDb == null)
+
+
+        if (userFromDb == null)
         {
             return NotFound();
         }
@@ -45,7 +46,10 @@ public class UserController : Controller
     {
         user.Role = Role.Client;
         user.CreatedAt = DateTime.UtcNow;
-        await _userService.Register(user);
+
+        if ((await _userService.Register(user)).Email == "Error")
+            return RedirectToAction("Register", "User");
+
         return RedirectToAction("Index", "Product");
     }
 }

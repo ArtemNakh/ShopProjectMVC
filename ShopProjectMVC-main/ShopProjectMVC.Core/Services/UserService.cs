@@ -1,4 +1,5 @@
-﻿using ShopProjectMVC.Core.Interfaces;
+﻿using Microsoft.AspNetCore.Mvc;
+using ShopProjectMVC.Core.Interfaces;
 using ShopProjectMVC.Core.Models;
 
 namespace ShopProjectMVC.Core.Services;
@@ -23,6 +24,14 @@ public class UserService : IUserService
 
     public Task<User> Register(User user)
     {
-        return _repository.Add(user);
+
+        int NumUser = _repository.GetAll<User>()
+             .Where(u => u.Email == user.Email)
+             .Count();
+
+        if (NumUser <= 0)
+            return _repository.Add(user);
+        else
+            return Task.FromResult(new User { Email = "Error" }); 
     }
 }
